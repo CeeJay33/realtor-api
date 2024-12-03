@@ -1,0 +1,6 @@
+[03-Dec-2024 15:59:21 UTC] PHP Fatal error:  Uncaught TypeError: Illuminate\Foundation\Configuration\ApplicationBuilder::withRouting(): Argument #1 ($using) must be of type ?Closure, array given, called in /home/geoeckqx/fashionhub.geoedu360.com/realtor-api/bootstrap/app.php on line 9 and defined in /home/geoeckqx/fashionhub.geoedu360.com/realtor-api/vendor/laravel/framework/src/Illuminate/Foundation/Configuration/ApplicationBuilder.php:150
+Stack trace:
+#0 /home/geoeckqx/fashionhub.geoedu360.com/realtor-api/bootstrap/app.php(9): Illuminate\Foundation\Configuration\ApplicationBuilder->withRouting()
+#1 /home/geoeckqx/fashionhub.geoedu360.com/realtor-api/public/index.php(16): require_once('/home/geoeckqx/...')
+#2 {main}
+  thrown in /home/geoeckqx/fashionhub.geoedu360.com/realtor-api/vendor/laravel/framework/src/Illuminate/Foundation/Configuration/ApplicationBuilder.php on line 150
