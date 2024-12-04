@@ -13,7 +13,12 @@ class UsersController extends Controller
 {
     public function index()
     {
-        return User::all();
+        $user = User::select( 'username', 'email')->get();
+
+        return response()->json([
+            "success" => true,
+            "data" => $user
+        ]);
 
     }
 
