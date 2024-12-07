@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Hash;
 use App\Models\User;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Facade;
 
 class UsersController extends Controller
@@ -55,6 +56,17 @@ class UsersController extends Controller
         return User::find($id);
     }
 
+
+    public function checkAuthStats(Request $request)
+    {
+        $user = $request->user();
+        if ($user) {
+            return response()->json(['authenticated' => true, 'user' => $user]);
+        }
+
+        return response()->json(['authenticated' => false], 401);
+    }
+
     
 
     public function update(Request $request)
@@ -80,14 +92,27 @@ class UsersController extends Controller
       return  User::where('username', 'like', '%'.$name.'%')->get();
     }
 
-    public function logout(Request $request)
+    public function logoutOutAll(Request $request)
     {
-        $request->user()->tokens()->delete();
+        $request->user()->token()->delete();
 
-        return [
-            "message" => "Logged out",
-        ];
+        return response()->json([
+            "message" => "Logged out"
+        ], 200);
+
+        
     }
+
+    public function logout(Request $request)
+{
+    $request->user()->currentAccessToken()->delete();
+
+
+    return response()->json([
+        "message" => "Logged out "
+    ], 200);
+}
+
 
 
     //login method
@@ -102,7 +127,7 @@ public function login(Request $request)
 
         $user = User::where('email', $fields['email'])->first();
 
-        if(!$user || !Hash::check($fields['password'], $user->password)){
+        if(!$user || ! Hash::check($fields['password'], $user->password)){
 
             return response([
                 "message" => "Invalid credentials"
