@@ -15,13 +15,13 @@ return [
     |
     */
 
-    'paths' => ['sanctum/csrf-cookie', '/sign-up'],
+    'paths' => ['api/*', 'sanctum/csrf-cookie'],
 
     'allowed_methods' => ['GET, POST, PUT, DELETE, OPTIONS'],
 
-    'allowed_origins' => ['https://realtor-xi-nine.vercel.app'],
+    'allowed_origins' => ['http://localhost:3000'],
 
-    'allowed_headers' => [ 'Content-Type, Authorization'],
+    'allowed_headers' => ['*'],
 
     'exposed_headers' => [],
 

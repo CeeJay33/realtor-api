@@ -6,9 +6,11 @@ use App\Models\User;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Facade;
+use Illuminate\Support\Facades\Session;
 
 class UsersController extends Controller
 {
@@ -23,6 +25,31 @@ class UsersController extends Controller
 
     }
 
+
+
+    //  public function invalidateAndDeleteToken(Request $request)
+    // {
+    //     // Step 1: Check if token exists in the database and delete it
+    //     $token = $request->header('X-XSRF-TOKEN'); // Get CSRF token from the request header
+
+    //     if ($token) {
+    //         // Assuming your CSRF tokens are stored in a 'csrf_tokens' table
+    //         DB::table('sessions')->where('token', $token)->delete();
+    //     }
+
+    //     // Step 2: Invalidate the current session
+    //     $request->session()->invalidate();
+
+    //     // Step 3: Regenerate a new CSRF token
+    //     $request->session()->regenerateToken();
+
+    //     return response()->json([
+    //         'message' => 'CSRF token invalidated, session ended, and token deleted from the database.',
+    //     ]);
+    // }
+
+
+    // creates the user data and stores in database
     public function store(Request $request){
 
         $fields = $request->validate([
@@ -51,12 +78,16 @@ class UsersController extends Controller
         return response($response, 201);
     }
 
+
+    // find user base on the ID
+
     public function show($id)
     {
         return User::find($id);
     }
 
 
+    // check if user is aunthenticated
     public function checkAuthStats(Request $request)
     {
         $user = $request->user();
@@ -67,7 +98,16 @@ class UsersController extends Controller
         return response()->json(['authenticated' => false], 401);
     }
 
-    
+
+
+
+
+
+
+
+
+
+    // update the user password, username record 
 
     public function update(Request $request)
     {
@@ -75,6 +115,16 @@ class UsersController extends Controller
      $userr =  $request->user();
     $userr->update($request->only(['password', 'username']));
     }
+
+
+
+
+
+
+
+
+
+    // deletes the user record from the server
 
    public function destroy(Request $request)
 {
@@ -87,10 +137,26 @@ class UsersController extends Controller
 
 
 
+
+
+
+
+
+    // search users
+
     public function search($name)
     {
       return  User::where('username', 'like', '%'.$name.'%')->get();
     }
+
+
+
+
+
+
+
+
+    // logout all sessions
 
     public function logoutOutAll(Request $request)
     {
@@ -103,15 +169,37 @@ class UsersController extends Controller
         
     }
 
+
+
+
+
+
+
+
+
+    // logout the current user
+
     public function logout(Request $request)
 {
     $request->user()->currentAccessToken()->delete();
+
+   Session::flush(); 
+    Session::invalidate(); 
+
+        $request->session()->regenerateToken();
 
 
     return response()->json([
         "message" => "Logged out "
     ], 200);
 }
+
+
+
+
+
+
+
 
 
 

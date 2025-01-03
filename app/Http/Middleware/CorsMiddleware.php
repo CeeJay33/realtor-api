@@ -16,9 +16,8 @@ class CorsMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        $allowedOrigin = 'https://realtor-xi-nine.vercel.app';
+        $allowedOrigin = 'http://localhost:3000';
 
-        // Handle OPTIONS preflight requests
         if ($request->getMethod() === 'OPTIONS') {
             return response('', 204)
                 ->header('Access-Control-Allow-Origin', $allowedOrigin)
@@ -27,7 +26,6 @@ class CorsMiddleware
                 ->header('Access-Control-Allow-Credentials', 'true');
         }
 
-        // Add headers to all other responses
         $response = $next($request);
 
         $response->headers->set('Access-Control-Allow-Origin', $allowedOrigin);
