@@ -16,7 +16,7 @@ class CorsMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        $allowedOrigin = 'http://localhost:3000';
+        $allowedOrigin = 'https://realtor-drab-theta.vercel.app';
 
         if ($request->getMethod() === 'OPTIONS') {
             return response('', 204)

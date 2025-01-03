@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['GET, POST, PUT, DELETE, OPTIONS'],
 
-    'allowed_origins' => ['http://localhost:3000'],
+    'allowed_origins' => ['https://realtor-drab-theta.vercel.app'],
 
     'allowed_headers' => ['*'],
 
