@@ -6,12 +6,20 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\UsersController;
 use App\Http\Middleware\VerifyCsrfHeader;
+use Illuminate\Session\Middleware\StartSession;
+
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 
 Route::middleware([VerifyCsrfToken::class])->group(function () {
 Route::post("/login", [UsersController::class, "login"]);
 });
+
+// Route::middleware(['api', Session::class])->group(function () {
+
 Route::post("/register", [UsersController::class, "store"]); 
+
+// });
+
 Route::get("/", [UsersController::class, "index"]); 
 Route::get("/users/{id}", [UsersController::class, "show"]);
 Route::get("users/search/{name}", [UsersController::class, "search"]); 
@@ -28,7 +36,7 @@ Route::post('invalidate-sessions', function () {
     return response()->json(['message' => 'All sessions invalidated successfully.']);
 });
 
-Route::middleware(['auth:sanctum', VerifyCsrfToken::class])->group(function () {
+Route::middleware(['auth:sanctum'])->group(function () {
     Route::put("/users/{id}", [UsersController::class, "update"]); 
     Route::delete("/users/{id}", [UsersController::class, "destroy"]); 
     Route::post("/logout", [UsersController::class, "logout"]); 

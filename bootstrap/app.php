@@ -18,19 +18,13 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        $middleware->validateCsrfTokens(except: [
-            // Optional: Add any exceptions if needed
-        ]);
-
-        // $middleware->append(EnsureFrontendRequestsAreStateful::class);
-        // $middleware->append(SubstituteBindings::class);
-        $middleware->append(CorsMiddleware::class);
-        $middleware->append(VerifyCsrfToken::class);
-
-        
         $middleware->append(StartSession::class);
-
+        
+        $middleware->append(CorsMiddleware::class);
+        
+        $middleware->validateCsrfTokens(except: [
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
+        
     })->create();
